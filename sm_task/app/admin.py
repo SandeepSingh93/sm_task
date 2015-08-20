@@ -1,13 +1,25 @@
 from django.contrib import admin
-
 from .models import Project,Task,Answer
-#from .forms import TeacherForm,TaskForm
 
-class AppAdmin(admin.ModelAdmin):
-    #form= TeacherForm,TaskForm
+
+class ProjectAdmin(admin.ModelAdmin):
+    list_display= ('PId','Name','Description','NumberOfQuestions','File',)
     class Meta:
-        model= Project,Task,Answer
+        model= Project
 
-admin.site.register(Project,AppAdmin)
-admin.site.register(Task,AppAdmin)
-admin.site.register(Answer,AppAdmin)
+
+class TaskAdmin(admin.ModelAdmin):
+    list_display= ('TId','Question','QuestionType','AnswerOptions',)
+    class Meta:
+        model= Task
+
+
+class AnswerAdmin(admin.ModelAdmin):
+    list_display= ('AId','Answers',)
+    class Meta:
+        model= Answer
+
+
+admin.site.register(Project,ProjectAdmin)
+admin.site.register(Task,TaskAdmin)
+admin.site.register(Answer,AnswerAdmin)
