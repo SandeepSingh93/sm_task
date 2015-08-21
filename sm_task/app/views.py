@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from .forms import TeacherForm,TaskForm,StudentForm
 from .models import Task,Project
 import csv,os
+from django.forms.formsets import formset_factory
 
 
 def get_project(request):
@@ -60,20 +61,26 @@ def save_from_csv(file_name):
 
 
 def get_task(request):
+    project = Project.objects.latest('PId')
+    NumberOfTask = project.NumberOfQuestions
+    TaskFormSet = formset_factory(TaskForm,extra=NumberOfTask)
 
-    form= TaskForm(request.POST or None)
+    if request.method == "POST":
+        formset= TaskFormSet(request.POST)
 
-    if form.is_valid():
-        save_task=form.save(commit=False)
-        save_task.save()
+        if formset.is_valid():
+            for form in formset:
+                data_to_insert=form.save(commit=False)
+                data_to_insert.TaskBy=Project.objects.latest('PId')
+                data_to_insert.save()
+            return HttpResponseRedirect('/student/')
 
-    return render(request,"task.html",{'form':form})
+    return render(request,"task.html",{'formset':TaskFormSet()})
 
 
 
 def get_answers(request):
-
-    form= StudentForm(request.POST or None)
+    form= StudentForm(request.POST)
     question_list=Task.objects.all()
     print(question_list)
 

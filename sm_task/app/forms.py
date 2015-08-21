@@ -29,7 +29,7 @@ class TaskForm(forms.ModelForm):
     AnswerOptions = forms.CharField(label='Answer Option',)
     class Meta:
         model = Task
-        fields= '__all__'
+        fields= ['Question','QuestionType','AnswerOptions']
 
 
 class StudentForm(forms.ModelForm):
