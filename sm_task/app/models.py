@@ -7,22 +7,23 @@ class Project(models.Model):
     NumberOfQuestions = models.IntegerField()
     File = models.FileField(upload_to='.')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.Name
 
 class Task(models.Model):
     TId= models.AutoField(primary_key=True)
+    TaskBy = models.ForeignKey(Project)
     Question = models.CharField(max_length=100)
     QuestionType = models.CharField(max_length=15)
     AnswerOptions = models.CharField(max_length=100)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.Question
 
 class Answer(models.Model):
     AId = models.AutoField(primary_key=True)
     Answers = models.CharField(max_length=500)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.Answers
 

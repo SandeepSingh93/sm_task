@@ -9,7 +9,7 @@ class ProjectAdmin(admin.ModelAdmin):
 
 
 class TaskAdmin(admin.ModelAdmin):
-    list_display= ('TId','Question','QuestionType','AnswerOptions',)
+    list_display= ('TId','TaskBy','Question','QuestionType','AnswerOptions',)
     class Meta:
         model= Task
 
