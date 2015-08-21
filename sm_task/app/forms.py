@@ -33,7 +33,6 @@ class TaskForm(forms.ModelForm):
 
 
 class StudentForm(forms.ModelForm):
-    Answers = forms.CharField(label='Answer')
     class Meta:
         model=Answer
-        fields='__all__'
+        fields=[]

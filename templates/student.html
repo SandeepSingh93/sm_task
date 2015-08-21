@@ -5,7 +5,19 @@
     <title></title>
 </head>
 <body>
-    <h1>Project Submitted. Now Give answers(as Student)</h1>
+    <h1>Project Submitted. Now Give answers(as Student)</h1><br><br>
+    <form method="POST" action=""> {% csrf_token %}
+        <p>
+            Select your Teacher name  :
+            <select id="select" name="teachername">
+                <option disabled selected> -- select an option -- </option>
+                {% for teacher in teacher_list %}
+                <option value="{{ teacher }}">{{teacher}}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Ok">
+        </p>
+    </form>
 
 </body>
 </html>

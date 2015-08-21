@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$','app.views.get_project',name='teacher'),
     url(r'^teacher/','app.views.get_project',name='teacher'),
-    url(r'^student/','app.views.get_answers',name='student'),
+    url(r'^student/','app.views.get_teachername',name='student'),
     url(r'^task/','app.views.get_task',name='student'),
+    url(r'^studentanswer/','app.views.get_answers',name='studentanswer'),
 ]

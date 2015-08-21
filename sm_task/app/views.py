@@ -77,15 +77,30 @@ def get_task(request):
 
     return render(request,"task.html",{'formset':TaskFormSet()})
 
+teacher=""
+
+def get_teachername(request):
+
+    question_list = Task.objects.all()
+    teacher_list=[]
+    for x in question_list:
+        teacher_list.append(x.TaskBy.Name)
+    if request.method == "POST":
+        global teacher
+        teacher=request.POST.get('teachername')
+        return HttpResponseRedirect('/studentanswer/')
+
+    return render(request,"student.html",{'teacher_list':teacher_list})
 
 
 def get_answers(request):
-    form= StudentForm(request.POST)
-    question_list=Task.objects.all()
-    print(question_list)
 
-    if form.is_valid():
-        save_answer=form.save(commit=False)
-        save_answer.save()
-
-    return render(request,"student.html",{'form':form})
+    #number = 1
+    question_list = Task.objects.all()
+    if request.method == "POST":
+        form= StudentForm(request.POST)
+        if form.is_valid():
+            form.save()
+    else:
+        form = StudentForm()
+    return render(request,"studentanswer.html",{'question_list':question_list,'form':form})
