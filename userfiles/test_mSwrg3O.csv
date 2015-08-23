@@ -1,7 +1,0 @@
-what is your name?,Text/Paragraph,100
-which of the following is shooter?,Multiple Choice,Abhinav Bindra,PT Usha,Sachin Tendulkar,Rahul Dravid
-On a scale of 5 how will you overall rate yourself?,Rating Scale,Excellent,Very good,Good,Fair,Poor
-Write a paragraph on Independence day?,Text/Paragraph,500
-You are a helping hand? Yes or No?,Boolean Type,Yes,No
-80+19= ?,Number Input,100
-Upload one of your photograph?,Picture input,250
