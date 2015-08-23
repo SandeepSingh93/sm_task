@@ -10,5 +10,19 @@
             {{ form.as_p }}
             <input type="submit" value="Submit"/>
         </form>
+    <br>
+    <h2>NOTE : </h2>
+    <pre>* Only csv format file should be imported.</pre>
+    <pre>* Your csv file should be in this format:
+        Question,Question type,Question options</pre>
+    <pre>* In above statement,
+        Question options can be:
+        For Multiple Choice,4 options only,each separated by comma
+        For Boolean Choice,2 options only,each separated by comma
+        For Paragraph/text type,1 options only,i.e the maximum characters
+        For Rating Scale,5 options only,each separated by comma
+        For Number Input,2 options only, i.e minimumValue,maximumValue</pre>
+
+
 </body>
 </html>

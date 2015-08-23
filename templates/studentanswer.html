@@ -5,12 +5,15 @@
     <title></title>
 </head>
 <body>
+    <h2>Submit your Answers</h2>
     <form method="POST" action=""> {% csrf_token %}
         <p>
-            <br><br><br>
-            Task {{ number }}<br><br>
-            Question :      <br><br>
-            Answer :        <br><br>
+            <br><br>
+                Question    : {{ question_list.0.Question }}<br>
+                 {{ form.as_p }}<br><br>
+            <br><br>
+
+            <br><br>
             <input type="submit" value="Next Task">
         </p>
     </form>

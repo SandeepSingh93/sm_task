@@ -22,8 +22,19 @@ class Task(models.Model):
 
 class Answer(models.Model):
     AId = models.AutoField(primary_key=True)
+    Question = models.ForeignKey(Task)
     Answers = models.CharField(max_length=500)
 
     def __str__(self):
         return self.Answers
 
+
+class Temp(models.Model):
+    TId= models.IntegerField()
+    TeacherName= models.CharField(max_length=35)
+    Question = models.CharField(max_length=100)
+    QuestionType = models.CharField(max_length=15)
+    AnswerOptions = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.Question

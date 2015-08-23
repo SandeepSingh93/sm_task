@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from .forms import TeacherForm,TaskForm,StudentForm
-from .models import Task,Project
+from .forms import *
+from .models import *
 import csv,os
 from django.forms.formsets import formset_factory
 
@@ -53,11 +53,28 @@ def save_from_csv(file_name):
         elif row[1]=="Boolean Type":
             data_to_insert.AnswerOptions=str(row[2])+","+str(row[3])
 
+        elif row[1]=="Rating Scale":
+                data_to_insert.AnswerOptions=str(row[2])+","+str(row[3])+","+str(row[4])+","+str(row[5])+","+str(row[6])
+
+        elif row[1]=="Number Input":
+            data_to_insert.AnswerOptions=str(row[2])+","+str(row[3])
+
         else:
             data_to_insert.AnswerOptions=row[2]
 
         data_to_insert.save()
 
+
+def copy_to_temp(teacher):
+    task_data = Task.objects.filter(TaskBy__Name=teacher)
+    for x in task_data:
+        temp = Temp()
+        temp.TId= x.TId
+        temp.TeacherName= x.TaskBy.Name
+        temp.Question= x.Question
+        temp.QuestionType = x.QuestionType
+        temp.AnswerOptions = x.AnswerOptions
+        temp.save()
 
 
 def get_task(request):
@@ -77,30 +94,60 @@ def get_task(request):
 
     return render(request,"task.html",{'formset':TaskFormSet()})
 
+
 teacher=""
 
 def get_teachername(request):
 
-    question_list = Task.objects.all()
+    project_list = Project.objects.all()
     teacher_list=[]
-    for x in question_list:
-        teacher_list.append(x.TaskBy.Name)
+    for x in project_list:
+        teacher_list.append(x.Name)
     if request.method == "POST":
         global teacher
         teacher=request.POST.get('teachername')
+        copy_to_temp(teacher)
         return HttpResponseRedirect('/studentanswer/')
 
     return render(request,"student.html",{'teacher_list':teacher_list})
 
 
+
+
 def get_answers(request):
 
-    #number = 1
-    question_list = Task.objects.all()
+    question_list=Temp.objects.filter(TeacherName=teacher)
+
+    if question_list[0].QuestionType == "Multiple Choice":
+        form=StudentMultipleChoiceForm(request.user,request.POST)
+    elif question_list[0].QuestionType == "Boolean Type":
+        form=StudentBooleanChoiceForm(request.user,request.POST)
+    elif question_list[0].QuestionType == "Rating Scale":
+        form=StudentRatingScaleForm(request.user,request.POST)
+    elif question_list[0].QuestionType == "Text/Paragraph":
+        form=StudentParagraphForm(request.user,request.POST)
+    elif question_list[0].QuestionType == "Number Input":
+        form=StudentNumberInputForm(request.user,request.POST)
+    # elif get_answers.question_list[0].QuestionType == "Picture Input":
+    #     form=StudentPictureInputForm(request.user,request.POST)
+
     if request.method == "POST":
-        form= StudentForm(request.POST)
         if form.is_valid():
-            form.save()
-    else:
-        form = StudentForm()
+            data_to_insert=form.save(commit=False)
+            ques=Task.objects.filter(TId=question_list[0].TId)
+            data_to_insert.Question=ques[0]
+            data_to_insert.save()
+            TempInstance=Temp.objects.filter(TId=question_list[0].TId)
+            TempInstance.delete()
+            if Temp.objects.all().exists():
+                return HttpResponseRedirect('/studentanswer')
+
+            else:
+                return HttpResponseRedirect('/thankyou')
+
     return render(request,"studentanswer.html",{'question_list':question_list,'form':form})
+
+
+def thankyou(request):
+
+    return render(request,"thankyou.html")

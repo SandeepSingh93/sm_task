@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^student/','app.views.get_teachername',name='student'),
     url(r'^task/','app.views.get_task',name='student'),
     url(r'^studentanswer/','app.views.get_answers',name='studentanswer'),
+    url(r'^thankyou','app.views.thankyou'),
 ]

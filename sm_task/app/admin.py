@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Project,Task,Answer
+from .models import *
 
 
 class ProjectAdmin(admin.ModelAdmin):
@@ -15,11 +15,17 @@ class TaskAdmin(admin.ModelAdmin):
 
 
 class AnswerAdmin(admin.ModelAdmin):
-    list_display= ('AId','Answers',)
+    list_display= ('AId','Question','Answers',)
     class Meta:
         model= Answer
+
+class TempAdmin(admin.ModelAdmin):
+    list_display= ('TId','TeacherName','Question','QuestionType','AnswerOptions',)
+    class Meta:
+        model= Temp
 
 
 admin.site.register(Project,ProjectAdmin)
 admin.site.register(Task,TaskAdmin)
 admin.site.register(Answer,AnswerAdmin)
+admin.site.register(Temp,TempAdmin)
